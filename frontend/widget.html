@@ -127,8 +127,8 @@
             addMessage(userInput, true);
 
             try {
-                // Send to backend
-                const response = await fetch("https://promptive-agency-chatbot.onrender.com/chat", {
+                // Send to backend - using the correct Render URL
+                const response = await fetch("https://promptive-agency.onrender.com/chat", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

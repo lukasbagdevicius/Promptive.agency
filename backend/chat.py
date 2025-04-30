@@ -1,15 +1,8 @@
-import sys
-import gradio as gr
-from fastapi import FastAPI
-import uvicorn
-from pydantic import BaseModel
-import threading
 import os
-from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 from openai import OpenAI
-load_dotenv()
+from dotenv import load_dotenv
 
+load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # System message
@@ -72,7 +65,7 @@ Then, it should ask each of these questions one by one to gather necessary infor
 - Q: How can I contact Promptive for more information?
   A: You can write to us by clicking 'Just Click Here' on our website or call us directly at (+370) 698-44647.
 """
-# Chat logic (updated)
+
 def chat_response(message, history):
     messages = [{"role": "system", "content": system_message}]
     
@@ -96,73 +89,4 @@ def chat_response(message, history):
         return response.choices[0].message.content
     except Exception as e:
         print("❌ BACKEND ERROR:", str(e))
-        return f"⚠️ Error: {str(e)}"
-
-# FastAPI app for widget
-app = FastAPI(
-    title="Promptive API",
-    description="API for Promptive Agency Chatbot",
-    version="1.0.0"
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/")
-async def root():
-    return {
-        "message": "Welcome to Promptive API",
-        "endpoints": {
-            "chat": "/chat",
-            "docs": "/docs"
-        },
-        "status": "online"
-    }
-
-class ChatRequest(BaseModel):
-    message: str
-    history: list = []
-
-@app.post("/chat")
-async def chat_endpoint(request: ChatRequest):
-    try:
-        reply = chat_response(request.message, request.history)
-        return {"response": reply}
-    except Exception as e:
-        print("🔥 FULL ENDPOINT ERROR:", str(e))
-        return {"response": f"⚠️ Internal error: {str(e)}"}
-
-# Gradio for browser preview
-demo = gr.ChatInterface(
-    fn=chat_response,
-    title="Promptive.Agency consultant",
-    description="Ask me about Promptive.Agency!",
-    examples=[
-        "What your company does?",
-        "How you can help me with my business?",
-        "How much does it cost",
-        "Can I contact you?",
-    ],
-    theme=gr.themes.Soft(primary_hue="purple", secondary_hue="pink")
-    # ⬆️ Remove the "type" argument completely
-)
-
-def run_fastapi():
-    port = int(os.environ.get("PORT", 10000))  # Dynamic PORT
-    print(f"✅ Starting FastAPI server on 0.0.0.0:{port}")
-    uvicorn.run("promptivebackend:app", host="0.0.0.0", port=port, log_level="info")
-
-# ✅ FIXED: Only run FastAPI on Render, Gradio locally
-if __name__ == "__main__":
-    if os.environ.get("RENDER"):
-        # Running on Render - only start FastAPI
-        run_fastapi()
-    else:
-        # Running locally - start both FastAPI and Gradio
-        threading.Thread(target=run_fastapi).start()
-        demo.launch(share=True)
+        return f"⚠️ Error: {str(e)}" 

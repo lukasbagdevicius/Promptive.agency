@@ -68,11 +68,13 @@ def run_fastapi():
     port = int(os.environ.get("PORT", 8000))
     print(f"✅ Starting FastAPI server on port {port}")
     print(f"✅ Environment: {'Production (Render)' if os.environ.get('RENDER') else 'Local Development'}")
+    print(f"✅ Module path: backend.app:app")
     uvicorn.run(
-        "backend.app:app",  # Use string format for module:app
+        "backend.app:app",
         host="0.0.0.0",
         port=port,
-        log_level="info"
+        log_level="info",
+        reload=False  # Disable reload in production
     )
 
 # Run FastAPI on Render, Gradio locally

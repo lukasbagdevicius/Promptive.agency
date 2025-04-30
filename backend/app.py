@@ -64,12 +64,12 @@ demo = gr.ChatInterface(
 )
 
 def run_fastapi():
-    # Get port from environment variable with fallback to 10000
-    port = int(os.environ.get("PORT", 10000))
+    # Get port from environment variable with fallback to 8000
+    port = int(os.environ.get("PORT", 8000))
     print(f"✅ Starting FastAPI server on port {port}")
     print(f"✅ Environment: {'Production (Render)' if os.environ.get('RENDER') else 'Local Development'}")
     uvicorn.run(
-        app,
+        "backend.app:app",  # Use string format for module:app
         host="0.0.0.0",
         port=port,
         log_level="info"

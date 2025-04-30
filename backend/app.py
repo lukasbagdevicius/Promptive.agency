@@ -43,7 +43,10 @@ async def root():
 @app.post("/chat")
 async def chat_endpoint(request: ChatRequest):
     try:
+        print("🔔 Incoming message:", request.message)
+        print("📝 Message history length:", len(request.history))
         reply = chat_response(request.message, request.history)
+        print("✅ Response generated successfully")
         return {"response": reply}
     except Exception as e:
         print("🔥 FULL ENDPOINT ERROR:", str(e))

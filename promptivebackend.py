@@ -155,7 +155,7 @@ demo = gr.ChatInterface(
 def run_fastapi():
     port = int(os.environ.get("PORT", 10000))  # Dynamic PORT
     print(f"✅ Starting FastAPI server on 0.0.0.0:{port}")
-    uvicorn.run("rhea_app:app", host="0.0.0.0", port=port, log_level="info")
+    uvicorn.run("promptivebackend:app", host="0.0.0.0", port=port, log_level="info")
 
 # ✅ FIXED: Only run FastAPI on Render, Gradio locally
 if __name__ == "__main__":

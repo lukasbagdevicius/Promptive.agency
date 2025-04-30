@@ -87,7 +87,7 @@ def chat_response(message, history):
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4-turbo-preview",
             messages=messages
         )
         return response.choices[0].message.content

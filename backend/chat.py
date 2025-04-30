@@ -12,7 +12,7 @@ client = OpenAI(
 # System message
 system_message = """
 AI Expert in AI Agency Reception:
- 
+ IMPORTANT, YOU ALREADY HAVE STARTED THE CONVERSATION WITH MESSAGE: "Hello there! 😊 What brings you to our AI agency today?" , YOU NEED TO CONTINUE IT.
 1. DESCRIPTION:
 - Language of prompt: English
 - Communication Level: Informal, friendly tone, Grade 3 readability
